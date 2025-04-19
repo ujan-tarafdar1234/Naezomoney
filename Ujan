@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spend a Billionaire's Money</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    #money {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: green;
+    }
+    .item {
+      display: inline-block;
+      width: 250px;
+      background: white;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    .item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .item h3 {
+      margin: 10px 0 5px;
+    }
+    .item p {
+      margin: 5px 0;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: gray;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Spend a Billionaire's Money</h1>
+  <div id="money">$100,000,000</div>
+
+  <div class="items" id="items"></div>
+
+  <script>
+    let money = 100000000;
+
+    const items = [
+      { name: "Burger", price: 5, img: "https://via.placeholder.com/200x150?text=Burger" },
+      { name: "iPhone", price: 999, img: "https://via.placeholder.com/200x150?text=iPhone" },
+      { name: "Tesla", price: 60000, img: "https://via.placeholder.com/200x150?text=Tesla" },
+      { name: "House", price: 500000, img: "https://via.placeholder.com/200x150?text=House" },
+      { name: "Private Jet", price: 5000000, img: "https://via.placeholder.com/200x150?text=Jet" }
+    ];
+
+    const moneyDiv = document.getElementById("money");
+    const itemsDiv = document.getElementById("items");
+
+    function formatMoney(value) {
+      return `$${value.toLocaleString()}`;
+    }
+
+    function updateMoneyDisplay() {
+      moneyDiv.textContent = formatMoney(money);
+    }
+
+    function createItemCard(item) {
+      const div = document.createElement("div");
+      div.className = "item";
+
+      const img = document.createElement("img");
+      img.src = item.img;
+
+      const title = document.createElement("h3");
+      title.textContent = item.name;
+
+      const price = document.createElement("p");
+      price.textContent = `Price: ${formatMoney(item.price)}`;
+
+      const count = document.createElement("p");
+      count.textContent = "Bought: 0";
+
+      const button = document.createElement("button");
+      button.textContent = "Buy";
+      button.onclick = () => {
+        if (money >= item.price) {
+          money -= item.price;
+          updateMoneyDisplay();
+          const current = parseInt(count.textContent.split(": ")[1]);
+          count.textContent = `Bought: ${current + 1}`;
+        } else {
+          alert("Not enough money!");
+        }
+      };
+
+      div.appendChild(img);
+      div.appendChild(title);
+      div.appendChild(price);
+      div.appendChild(count);
+      div.appendChild(button);
+
+      itemsDiv.appendChild(div);
+    }
+
+    items.forEach(createItemCard);
+    updateMoneyDisplay();
+  </script>
+
+</body>
+</html>
